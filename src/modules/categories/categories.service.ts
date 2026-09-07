@@ -1,5 +1,5 @@
 import * as repository from "./categories.repository.js";
-import { CreateCategoryRequest } from "./categories.types.js";
+import { CreateCategoryRequest } from "./categories.schema.js";
 
 export async function getCategories() {
   return repository.findAll();

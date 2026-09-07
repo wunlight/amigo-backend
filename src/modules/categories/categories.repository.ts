@@ -1,5 +1,6 @@
 import { pool } from "../../database/database.js";
-import { Category, CreateCategoryRequest } from "./categories.types.js";
+import { CreateCategoryRequest } from "./categories.schema.js";
+import { Category } from "./categories.types.js";
 
 export async function findAll(): Promise<Category[]> {
   const result = await pool.query<Category>(
