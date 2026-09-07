@@ -28,7 +28,10 @@ export async function createCategory(req: Request, res: Response) {
   if (!parsedReq.success) {
     return res.status(400).json({
       error: "invalid request body",
-      detail: parsedReq.error.issues,
+      detail: parsedReq.error.issues.map((issue) => ({
+        field: issue.path.join("."),
+        message: issue.message,
+      })),
     });
   }
 
