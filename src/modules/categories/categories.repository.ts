@@ -38,9 +38,14 @@ export async function findByID(id: string): Promise<Category | null> {
 export async function create(data: CreateCategoryRequest): Promise<Category> {
   const result = await pool.query<Category>(
     `
-    INSERT INTO categories (name)
+    INSERT INTO categories
+    (
+      name
+    )
     VALUES ($1)
-    RETURNING id, name
+    RETURNING
+      id,
+      name
     `,
     [data.name],
   );
