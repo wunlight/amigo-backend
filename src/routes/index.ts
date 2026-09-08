@@ -1,5 +1,6 @@
 import { Router } from "express";
-import categoryRoutes from "../modules/categories/categories.routes.js";
+import categoryRouter from "../modules/categories/categories.routes.js";
+import productRouter from "../modules/products/products.routes.js";
 
 const router = Router();
 
@@ -9,6 +10,7 @@ router.get("/health", (_req, res) => {
   });
 });
 
-router.use("/categories", categoryRoutes);
+router.use("/categories", categoryRouter);
+router.use("/products", productRouter);
 
 export default router;
