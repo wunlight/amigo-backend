@@ -1,5 +1,5 @@
 import { pool } from "../../database/database.js";
-import { CreateCategoryRequest } from "./categories.schema.js";
+import { CreateCategoryRequest, UpdateCategoryRequest } from "./categories.schema.js";
 import { Category } from "./categories.types.js";
 
 export async function findAll(): Promise<Category[]> {
@@ -51,4 +51,34 @@ export async function create(data: CreateCategoryRequest): Promise<Category> {
   );
 
   return result.rows[0];
+}
+
+export async function update(data: UpdateCategoryRequest): Promise<Category | null> {
+  const result = await pool.query<Category>(
+    `
+    UPDATE categories
+    SET
+      name = $2,
+      updated_at = NOW()
+    WHERE id = $1
+    RETURNING
+      id,
+      name
+    `,
+    [data.id, data.name],
+  );
+
+  return result.rows[0] ?? null;
+}
+
+export async function remove(id: string): Promise<boolean> {
+  const result = await pool.query(
+    `
+    DELETE FROM categories
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  return (result.rowCount ?? 0) > 0;
 }
