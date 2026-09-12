@@ -6,6 +6,7 @@ export interface Product {
   unit: string;
   selling_price: number;
   minimum_stock: number;
+  current_stock: number;
   is_active: boolean;
   created_at: Date;
   updated_at: Date;

@@ -13,4 +13,9 @@ export const createProductSchema = z.object({
     .min(0, "minimum stock must be greater than or equal to 0"),
 });
 
+export const updateProductSchema = createProductSchema.extend({
+  id: z.string().uuid("invalid product id"),
+});
+
 export type CreateProductRequest = z.infer<typeof createProductSchema>;
+export type UpdateProductRequest = z.infer<typeof updateProductSchema>;
