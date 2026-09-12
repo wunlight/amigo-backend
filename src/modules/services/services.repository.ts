@@ -1,5 +1,5 @@
 import { pool } from "../../database/database.js";
-import { CreateServiceRequest } from "./services.schema.js";
+import { CreateServiceRequest, UpdateServiceRequest } from "./services.schema.js";
 import { Service } from "./services.types.js";
 
 export async function findAll(): Promise<Service[]> {
@@ -55,4 +55,36 @@ export async function create(data: CreateServiceRequest): Promise<Service> {
   );
 
   return result.rows[0];
+}
+
+export async function update(data: UpdateServiceRequest): Promise<Service | null> {
+  const result = await pool.query<Service>(
+    `
+    UPDATE services
+    SET
+      name = $2,
+      default_price = $3,
+      updated_at = NOW()
+    WHERE id = $1
+    RETURNING
+      id,
+      name,
+      default_price
+    `,
+    [data.id, data.name, data.default_price],
+  );
+
+  return result.rows[0] ?? null;
+}
+
+export async function remove(id: string): Promise<boolean> {
+  const result = await pool.query(
+    `
+    DELETE FROM services
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  return (result.rowCount ?? 0) > 0;
 }
