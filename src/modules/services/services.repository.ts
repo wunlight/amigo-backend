@@ -45,7 +45,7 @@ export async function create(data: CreateServiceRequest): Promise<Service> {
       name,
       default_price
     )
-    VALUES ($1)
+    VALUES ($1, $2)
     RETURNING
       id,
       name,
